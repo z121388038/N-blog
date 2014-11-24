@@ -6,6 +6,12 @@ var ObjectID = require('mongodb').ObjectID;
 var exception = require('../lib/exception');
 
 exports.save = function (mongo, user, data) {
+  var tags = {};
+  data.tags.forEach(function (tag) {
+    if (tag) {
+      tags[tag.toLowerCase()] = 1;
+    }
+  });
   return function (cb) {
     var doc = {
       name: user.name,
@@ -205,6 +211,13 @@ exports.getEdit = function (mongo, id, name) {
 };
 
 exports.postEdit = function (mongo, id, name, doc) {
+  var tags = {};
+  doc.tags.forEach(function (tag) {
+    if (tag) {
+      tags[tag.toLowerCase()] = 1;
+    }
+  });
+  doc.tags = Object.keys(tags);
   return function (cb) {
     mongo
       .db('blog')

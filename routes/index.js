@@ -226,6 +226,7 @@ module.exports = function (app) {
     yield this.render('edit', {
       title: '编辑',
       post: post,
+      user: this.session.user,
       flash: this.flash
     });
   }));
